@@ -1,0 +1,44 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.2'
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+    id 'java'
+    id 'com.google.cloud.tools.jib' version '3.2.1'
+}
+
+group = 'com.pecokie'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation platform('ai.djl:bom:0.19.0')
+    implementation "ai.djl:api"
+    implementation "ai.djl:basicdataset"
+    implementation "ai.djl.opencv:opencv"
+
+    implementation "ai.djl.pytorch:pytorch-engine"
+    implementation "ai.djl.pytorch:pytorch-model-zoo"
+
+//    implementation "ai.djl.onnxruntime:onnxruntime-engine"
+    implementation 'org.openpnp:opencv:4.5.5-1'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+jib {
+    container {
+        ports = ['8080']
+        creationTime = 'USE_CURRENT_TIMESTAMP'
+    }
+}
